@@ -58,6 +58,10 @@ function _Calendar() {
   const cal = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const isModalOpenHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   const onClickSchedule = useCallback((e) => {
     const { calendarId, id } = e.schedule;
     const el = cal.current.calendarInst.getElement(id, calendarId);
@@ -67,7 +71,6 @@ function _Calendar() {
   }, []);
 
   const onBeforeCreateSchedule = useCallback((scheduleData) => {
-    setIsOpen(true);
     console.log(scheduleData);
     console.log('-----------------before create schedule');
 
