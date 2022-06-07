@@ -12,6 +12,10 @@ function App() {
 
   return (
     <div className='App'>
+      <div>
+        <button>next</button>
+        <button>previous</button>
+      </div>
       <div className='container md:mx-auto p-0 h-screen w-3/4'>
         <Calendar />
       </div>
