@@ -1,4 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+
+import CreationPopup from './CreationPopup';
 
 import TUICalendar from '@toast-ui/react-calendar';
 import { ISchedule, ICalendarInfo } from 'tui-calendar';
@@ -54,16 +56,20 @@ const calendars: ICalendarInfo[] = [
 
 function _Calendar() {
   const cal = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onClickSchedule = useCallback((e) => {
     const { calendarId, id } = e.schedule;
     const el = cal.current.calendarInst.getElement(id, calendarId);
 
     console.log(e, el.getBoundingClientRect());
+    console.log('-----------------on clcik');
   }, []);
 
   const onBeforeCreateSchedule = useCallback((scheduleData) => {
+    setIsOpen(true);
     console.log(scheduleData);
+    console.log('-----------------before create schedule');
 
     const schedule = {
       id: String(Math.random()),
@@ -93,6 +99,7 @@ function _Calendar() {
 
   const onBeforeUpdateSchedule = useCallback((e) => {
     console.log(e);
+    console.log('before update schedules');
 
     const { schedule, changes } = e;
 
@@ -149,7 +156,7 @@ function _Calendar() {
         ref={cal}
         height='100%'
         view='week'
-        useCreationPopup={true}
+        useCreationPopup={false}
         useDetailPopup={true}
         template={templates}
         calendars={calendars}
@@ -159,6 +166,7 @@ function _Calendar() {
         onBeforeDeleteSchedule={onBeforeDeleteSchedule}
         onBeforeUpdateSchedule={onBeforeUpdateSchedule}
       />
+      <CreationPopup open={isOpen} />
     </>
   );
 }

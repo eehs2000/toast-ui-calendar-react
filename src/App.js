@@ -9,7 +9,7 @@ function App() {
   const deleteLecture = () => {
     return;
   };
-
+  ////dddd
   return (
     <div className='App'>
       <div>
