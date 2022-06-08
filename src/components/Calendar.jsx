@@ -17,7 +17,7 @@ const schedules: ISchedule[] = [
     calendarId: '1',
     category: 'time',
     isVisible: true,
-    title: 'Study',
+    title: '수업1',
     id: '1',
     body: 'Test',
     start,
@@ -27,7 +27,7 @@ const schedules: ISchedule[] = [
     calendarId: '2',
     category: 'time',
     isVisible: true,
-    title: 'Meeting',
+    title: '수업2',
     id: '2',
     body: 'Description',
     start: new Date(new Date().setHours(start.getHours() + 1)),
@@ -36,36 +36,35 @@ const schedules: ISchedule[] = [
 ];
 
 const calendars: ICalendarInfo[] = [
-  {
-    id: '1',
-    name: 'My Calendar',
-    color: '#ffffff',
-    bgColor: '#9e5fff',
-    dragBgColor: '#9e5fff',
-    borderColor: '#9e5fff',
-  },
-  {
-    id: '2',
-    name: 'Company',
-    color: '#ffffff',
-    bgColor: '#00a9ff',
-    dragBgColor: '#00a9ff',
-    borderColor: '#00a9ff',
-  },
+  // {
+  //   id: '1',
+  //   name: 'My Calendar',
+  //   color: '#ffffff',
+  //   bgColor: '#9e5fff',
+  //   dragBgColor: '#9e5fff',
+  //   borderColor: '#9e5fff',
+  // },
+  // {
+  //   id: '2',
+  //   name: 'Company',
+  //   color: '#ffffff',
+  //   bgColor: '#00a9ff',
+  //   dragBgColor: '#00a9ff',
+  //   borderColor: '#00a9ff',
+  // },
 ];
 
 function _Calendar() {
   const cal = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const isModalOpenHandler = () => {
-    setIsOpen(!isOpen);
+  const openModalHandler = () => {
+    setIsOpen((check) => !check);
   };
 
   const onClickSchedule = useCallback((e) => {
     const { calendarId, id } = e.schedule;
     const el = cal.current.calendarInst.getElement(id, calendarId);
-
     console.log(e, el.getBoundingClientRect());
     console.log('-----------------on clcik');
   }, []);
@@ -76,7 +75,8 @@ function _Calendar() {
 
     const schedule = {
       id: String(Math.random()),
-      title: scheduleData.title,
+      title: '수업',
+      // title: scheduleData.title,
       isAllDay: scheduleData.isAllDay,
       start: scheduleData.start,
       end: scheduleData.end,
@@ -88,24 +88,19 @@ function _Calendar() {
       // },
       state: scheduleData.state,
     };
-
     cal.current.calendarInst.createSchedules([schedule]);
   }, []);
 
   const onBeforeDeleteSchedule = useCallback((res) => {
     console.log(res);
-
     const { id, calendarId } = res.schedule;
-
     cal.current.calendarInst.deleteSchedule(id, calendarId);
   }, []);
 
   const onBeforeUpdateSchedule = useCallback((e) => {
     console.log(e);
     console.log('before update schedules');
-
     const { schedule, changes } = e;
-
     cal.current.calendarInst.updateSchedule(
       schedule.id,
       schedule.calendarId,
@@ -123,7 +118,6 @@ function _Calendar() {
 
   function _getTimeTemplate(schedule, isAllDay) {
     var html = [];
-
     if (!isAllDay) {
       html.push('<strong>' + _getFormattedTime(schedule.start) + '</strong> ');
     }
@@ -149,6 +143,7 @@ function _Calendar() {
   const templates = {
     time: function (schedule) {
       console.log(schedule);
+
       return _getTimeTemplate(schedule, false);
     },
   };
@@ -169,6 +164,7 @@ function _Calendar() {
         onBeforeDeleteSchedule={onBeforeDeleteSchedule}
         onBeforeUpdateSchedule={onBeforeUpdateSchedule}
       />
+
       <CreationPopup open={isOpen} />
     </>
   );
